@@ -3,7 +3,6 @@ import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.VehicleService;
 import exception.ServiceException;
 import model.Vehicle;
-
 import java.util.List;
 import java.util.Scanner;
 
@@ -56,7 +55,7 @@ public class VehicleCli {
             System.out.println("Le véhicule a été créé avec succès. ID du véhicule : " + vehicleId);
 
         }catch(ServiceException e){
-            throw new ServiceException("Une erreur a eu lieu lors de la création du véhicule.\n");
+            throw new ServiceException(e.getMessage());
         }
         sc.close();
     }
@@ -67,9 +66,10 @@ public class VehicleCli {
 
             if (!vehicles.isEmpty()) {
                 for (Vehicle vehicle : vehicles) {
+                    System.out.println("Id : " + vehicle.getId());
                     System.out.println("Constructeur : " + vehicle.getConstructeur());
                     System.out.println("Modèle : " + vehicle.getModele());
-                    System.out.println("Nombre de places : " + vehicle.getNb_places());
+                    System.out.println("Nombre de places : " + vehicle.getNb_places() + "\n");
                 }
             } else {
                 System.out.println("Aucun véhicule trouvé.");
@@ -77,5 +77,30 @@ public class VehicleCli {
         }catch(ServiceException e){
             throw new ServiceException(e.getMessage());
         }
+    }
+    public void deleteVehicle() throws ServiceException {
+
+        Scanner sc = new Scanner(System.in);
+        try{
+            System.out.println("Liste des véhicules: \n") ;
+            VehicleCli vehicleCli = new VehicleCli(vehicleService);
+            vehicleCli.findAll();
+            System.out.println("Saisissez l'id du véhicule que vous voulez supprimer.\n");
+            String InputIdVehicule = sc.nextLine();
+
+            while(InputIdVehicule.isEmpty()){
+                System.out.println("Veuillez rentrer l'id du véhicule à supprimer.\n");
+                InputIdVehicule = sc.nextLine();
+            }
+            int IdVehiculeASupprimer  = Integer.parseInt(InputIdVehicule);
+
+            Vehicle vehicle = vehicleService.findById(IdVehiculeASupprimer);
+            System.out.println(vehicle);
+            long idVehicule = vehicleService.delete(vehicle);
+            System.out.println("Le véhicule avec l'id: "+idVehicule+" a bien été supprimé");
+        }catch(ServiceException e){
+            throw new ServiceException(e.getMessage());
+        }
+        sc.close();
     }
 }

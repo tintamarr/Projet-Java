@@ -2,8 +2,9 @@ package com.epf.rentmanager.ui.cli;
 import com.epf.rentmanager.service.ClientService;
 import exception.ServiceException;
 import model.Client;
+import model.Vehicle;
 
-import java.util.Locale;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.time.LocalDate;
@@ -98,4 +99,51 @@ public class ClientCli {
         Matcher matcher = EMAIL_PATTERN.matcher(email);
         return matcher.matches();
     }
+    public void findAll() throws ServiceException {
+        try{
+            List<Client> clients = clientService.findAll();
+
+            if (!clients.isEmpty()) {
+                for (Client client : clients) {
+                    System.out.println("Id : " + client.getId());
+                    System.out.println("Nom : " + client.getNom());
+                    System.out.println("Prénom : " + client.getPrenom());
+                    System.out.println("Adresse mail : " + client.getEmail());
+                    System.out.println("Date de naissance : " + client.getNaissance()+ "\n");
+                }
+            } else {
+                System.out.println("Aucun client trouvé.");
+            }
+        }catch(ServiceException e){
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    public void deleteClient() throws ServiceException {
+
+        Scanner sc = new Scanner(System.in);
+        try{
+           System.out.println("Liste des clients: \n") ;
+           ClientCli clientCli = new ClientCli(clientService);
+           clientCli.findAll();
+           System.out.println("Saisissez l'id du client que vous voulez supprimer.\n");
+           String InputIdClient = sc.nextLine();
+
+           while(InputIdClient.isEmpty()){
+               System.out.println("Veuillez rentrer l'id du client à supprimer.\n");
+               InputIdClient = sc.nextLine();
+           }
+            int IdClientASupprimer  = Integer.parseInt(InputIdClient);
+
+            Client client = clientService.findById(IdClientASupprimer);
+            System.out.println(client);
+            long idClient = clientService.delete(client);
+            System.out.println("Le client avec l'id: "+idClient+" a bien été supprimé");
+        }catch(ServiceException e){
+            throw new ServiceException(e.getMessage());
+        }
+        sc.close();
+    }
+
 }
+

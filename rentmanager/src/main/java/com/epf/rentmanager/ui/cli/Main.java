@@ -8,13 +8,13 @@ public class Main {
 
     public static void main(String[] args) throws ServiceException {
 
-
         ClientService clientService = ClientService.getInstance();
         ClientCli clientCli = new ClientCli(clientService);
         VehicleService vehicleService = VehicleService.getInstance();
         VehicleCli vehicleCli = new VehicleCli(vehicleService);
 
         Scanner sc = new Scanner(System.in);
+
         System.out.println("Quelle action souhaitez-vous réaliser? Entrez:\n" +
                 "1 - Pour créer un client\n" +
                 "2 - Pour lister tous les clients\n" +
@@ -24,6 +24,7 @@ public class Main {
                 "6 - Pour supprimer un véhicule\n");
 
         int action = sc.nextInt();
+
         while (action>6 || action<1){
             System.out.println("Veuillez rentrer un nombre compris entre 1 et 6 correspondant à l'action à réaliser.\n");
             action = sc.nextInt();
@@ -34,8 +35,10 @@ public class Main {
                 clientCli.createClient();
                 break;
             case 2:
+                clientCli.findAll();
                 break;
             case 3:
+                clientCli.deleteClient();
                 break;
             case 4:
                 vehicleCli.createVehicle();
@@ -44,6 +47,7 @@ public class Main {
                 vehicleCli.findAll();
                 break;
             case 6:
+                vehicleCli.deleteVehicle();
                 break;
         }
         sc.close();

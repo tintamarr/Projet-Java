@@ -33,7 +33,7 @@ public class VehicleService {
 		try {
 			return vehicleDao.create(vehicle);
 		} catch (DaoException e) {
-			throw new ServiceException("Une erreur a eu lieu lors de la création du véhicule.\n");
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -41,7 +41,7 @@ public class VehicleService {
 		try {
 			return vehicleDao.delete(vehicle);
 		} catch (DaoException e) {
-			throw new ServiceException("Une erreur a eu lieu lors de la suppresion du véhicule.\n");
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -54,7 +54,7 @@ public class VehicleService {
 				throw new ServiceException("Aucun véhicule ne correspond à l'id: "+id+".\n");
 			}
 		} catch (DaoException e) {
-			throw new ServiceException("Une erreur a eu lieu lors de la récupération du véhicule par l'id.\n");
+			throw new ServiceException(e.getMessage());
 		}
 	}
 

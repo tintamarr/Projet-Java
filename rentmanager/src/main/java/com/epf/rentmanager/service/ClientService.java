@@ -35,7 +35,7 @@ public class ClientService {
 		try {
 			return clientDao.create(client);
 		} catch (DaoException e) {
-			throw new ServiceException("Une erreur a eu lieu lors de la création du client.\n");
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -43,7 +43,7 @@ public class ClientService {
 		try {
 			return clientDao.delete(client);
 		} catch (DaoException e) {
-			throw new ServiceException("Une erreur a eu lieu lors de la suppression du client.\n");
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -56,7 +56,7 @@ public class ClientService {
 				throw new ServiceException("Aucun client ne correspond à l'id: "+id+".\n");
 			}
 		} catch (DaoException e) {
-			throw new ServiceException("Une erreur a eu lieu lors de la récupération du client par l'id.\n");
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
@@ -69,7 +69,7 @@ public class ClientService {
 				throw new ServiceException("Aucun client trouvé dans la liste.\n");
 			}
 		} catch (DaoException e) {
-			throw new ServiceException("Une erreur a eu lieu lors de la récupération des clients.\n");
+			throw new ServiceException(e.getMessage());
 		}
 	}
 	

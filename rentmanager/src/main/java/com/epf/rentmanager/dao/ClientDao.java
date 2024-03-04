@@ -1,6 +1,7 @@
 package com.epf.rentmanager.dao;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +25,7 @@ public class ClientDao {
 	
 	private static final String CREATE_CLIENT_QUERY = "INSERT INTO Client(nom, prenom, email, naissance) VALUES(?, ?, ?, ?);";
 	private static final String DELETE_CLIENT_QUERY = "DELETE FROM Client WHERE id=?;";
-	private static final String FIND_CLIENT_QUERY = "SELECT nom, prenom, email, naissance FROM Client WHERE id=?;";
+	private static final String FIND_CLIENT_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client WHERE id=?;";
 	private static final String FIND_CLIENTS_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client;";
 	
 	public long create(Client client) throws DaoException {
@@ -48,14 +49,14 @@ public class ClientDao {
 			return clientId;
 
 		} catch (SQLException e) {
-			throw new DaoException("Erreur lors de la création d'un utilisateur.");
+			throw new DaoException(e.getMessage());
 		}
 		finally{
 			if(rs!=null){
 				try{
 					rs.close();
 				}catch(SQLException e){
-					System.err.println("Une erreur est survenue lors de la fermeture du ResultSet.");
+					System.err.println(e.getMessage());
 				}
 			}
 		}
@@ -70,7 +71,7 @@ public class ClientDao {
 			ps.executeUpdate();
 
 		}catch (SQLException e){
-			throw new DaoException("Une erreur s'est produite lors de la suppression du client.");
+			throw new DaoException(e.getMessage());
 		}
 		return client.getId();
 	}
@@ -92,17 +93,18 @@ public class ClientDao {
 				client.setNom(rs.getString("nom"));
 				client.setPrenom(rs.getString("prenom"));
 				client.setEmail(rs.getString("email"));
-				client.setNaissance(((java.sql.Date) rs.getObject("naissance")).toLocalDate());
+				LocalDate localDate = ((Timestamp) rs.getObject("naissance")).toLocalDateTime().toLocalDate();
+				client.setNaissance(localDate);
 			}
 
 		}catch(SQLException e){
-			throw new DaoException("Une erreur s'est produite lors de la recherche du client par son id.");
+			throw new DaoException(e.getMessage());
 		}finally{
 			if(rs != null) {
 				try {
 					rs.close();
 				} catch (SQLException e) {
-					System.err.println("Une erreur est survenue lors de la fermeture du ResultSet.");
+					System.err.println(e.getMessage());
 				}
 			}
 		}
@@ -124,17 +126,17 @@ public class ClientDao {
 				client.setNom(rs.getString("nom"));
 				client.setPrenom(rs.getString("prenom"));
 				client.setEmail(rs.getString("email"));
-				client.setNaissance(((java.sql.Date) rs.getObject("naissance")).toLocalDate());
+				client.setNaissance(((Timestamp) rs.getObject("naissance")).toLocalDateTime().toLocalDate());
 				clients.add(client);
 			}
 		}catch(SQLException e){
-			throw new DaoException("Erreur lors de la recherche d'un client grâce à son identifiant.");
+			throw new DaoException(e.getMessage());
 		}finally{
 			if(rs!=null){
 				try{
 					rs.close();
 				}catch(SQLException e){
-					System.err.println("Une erreur est survenue lors de la fermeture du ResultSet.");
+					System.err.println(e.getMessage());
 				}
 			}
 		}
