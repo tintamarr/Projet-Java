@@ -18,8 +18,7 @@ public class ClientCli {
     private static final String EMAIL_REGEX =
             "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
-    public void createClient() throws ServiceException {
-        Scanner sc = new Scanner(System.in);
+    public void createClient(Scanner sc) throws ServiceException {
         Client client;
         try {
 
@@ -63,7 +62,7 @@ public class ClientCli {
         }catch (ServiceException e) {
             throw new ServiceException("Une erreur a eu lieu lors de la création du client.\n");
         }
-        sc.close();
+
     }
 
     public static LocalDate DateDeNaissance() {
@@ -119,9 +118,8 @@ public class ClientCli {
         }
     }
 
-    public void deleteClient() throws ServiceException {
+    public void deleteClient(Scanner sc) throws ServiceException {
 
-        Scanner sc = new Scanner(System.in);
         try{
            System.out.println("Liste des clients: \n") ;
            ClientCli clientCli = new ClientCli(clientService);
@@ -136,8 +134,6 @@ public class ClientCli {
         }catch(ServiceException e){
             throw new ServiceException(e.getMessage());
         }
-        sc.close();
     }
-
 }
 

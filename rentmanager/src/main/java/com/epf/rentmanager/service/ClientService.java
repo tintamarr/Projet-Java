@@ -9,24 +9,16 @@ import exception.DaoException;
 import exception.ServiceException;
 import model.Client;
 import model.Vehicle;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ClientService {
 
 	private ClientDao clientDao;
-	public static ClientService instance;
-	
-	private ClientService() {
-		this.clientDao = ClientDao.getInstance();
+	private ClientService(ClientDao clientDao){
+		this.clientDao = clientDao;
 	}
-	
-	public static ClientService getInstance() {
-		if (instance == null) {
-			instance = new ClientService();
-		}
-		
-		return instance;
-	}
-	
+
 	
 	public long create(Client client) throws ServiceException {
 		if (client.getNom().isEmpty() || client.getPrenom().isEmpty() ) {

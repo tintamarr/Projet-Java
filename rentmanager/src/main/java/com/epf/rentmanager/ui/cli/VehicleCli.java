@@ -12,8 +12,7 @@ public class VehicleCli {
     public VehicleCli(VehicleService vehicleService) {
         this.vehicleService = vehicleService;
     }
-    public void createVehicle() throws ServiceException {
-        Scanner sc = new Scanner(System.in);
+    public void createVehicle(Scanner sc) throws ServiceException {
         Vehicle vehicle;
 
         try{
@@ -50,7 +49,6 @@ public class VehicleCli {
         }catch(ServiceException e){
             throw new ServiceException(e.getMessage());
         }
-        sc.close();
     }
     
     public void findAll() throws ServiceException {
@@ -71,9 +69,8 @@ public class VehicleCli {
             throw new ServiceException(e.getMessage());
         }
     }
-    public void deleteVehicle() throws ServiceException {
+    public void deleteVehicle(Scanner sc) throws ServiceException {
 
-        Scanner sc = new Scanner(System.in);
         try{
             System.out.println("Liste des véhicules: \n") ;
             VehicleCli vehicleCli = new VehicleCli(vehicleService);
@@ -88,6 +85,5 @@ public class VehicleCli {
         }catch(ServiceException e){
             throw new ServiceException(e.getMessage());
         }
-        sc.close();
     }
 }

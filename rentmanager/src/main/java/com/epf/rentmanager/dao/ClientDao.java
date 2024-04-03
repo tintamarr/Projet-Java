@@ -5,24 +5,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import com.epf.rentmanager.persistence.ConnectionManager;
 import exception.DaoException;
 import model.Client;
+import org.springframework.stereotype.Repository;
 
+@Repository
 
 public class ClientDao {
-	
-	private static ClientDao instance = null;
-	private ClientDao() {
-	}
-	public static ClientDao getInstance() {
-		if(instance == null) {
-			instance = new ClientDao();
-		}
-		return instance;
-	}
-	
 	private static final String CREATE_CLIENT_QUERY = "INSERT INTO Client(nom, prenom, email, naissance) VALUES(?, ?, ?, ?);";
 	private static final String DELETE_CLIENT_QUERY = "DELETE FROM Client WHERE id=?;";
 	private static final String FIND_CLIENT_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client WHERE id=?;";
@@ -30,36 +20,19 @@ public class ClientDao {
 	
 	public long create(Client client) throws DaoException {
 
-		ResultSet rs = null;
-
 		try(Connection connection = ConnectionManager.getConnection();
-			PreparedStatement ps = connection.prepareStatement(CREATE_CLIENT_QUERY, Statement.RETURN_GENERATED_KEYS)){
-
+			PreparedStatement ps = connection.prepareStatement(CREATE_CLIENT_QUERY)){
 			ps.setString(1, client.getNom());
-			ps.setString(2, client.getPrenom());
+			ps.setString(2,client.getPrenom());
 			ps.setString(3, client.getEmail());
 			ps.setDate(4, Date.valueOf(client.getNaissance()));
-			ps.executeUpdate();
+			ps.execute();
 
-			rs = ps.getGeneratedKeys();
-			long clientId = -1;
-			if (rs.next()) {
-				clientId = rs.getLong(1);
-			}
-			return clientId;
-
-		} catch (SQLException e) {
+		}catch (SQLException e){
 			throw new DaoException(e.getMessage());
 		}
-		finally{
-			if(rs!=null){
-				try{
-					rs.close();
-				}catch(SQLException e){
-					System.err.println(e.getMessage());
-				}
-			}
-		}
+		return client.getId();
+
 	}
 	
 	public long delete(Client client) throws DaoException {

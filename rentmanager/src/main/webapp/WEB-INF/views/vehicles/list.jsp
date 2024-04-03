@@ -1,3 +1,4 @@
+<%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html>
@@ -40,7 +41,7 @@
                                     <td>${vehicle.id}.</td>
                                     <td>${vehicle.constructeur}</td>
                                     <td>${vehicle.modele}</td>
-                                    <td>${vehicle.seats}</td>
+                                    <td>${vehicle.nb_places}</td>
                                     <!--<td>John Doe</td>-->
                                     <td>
                                         <a class="btn btn-primary disabled" href="car-detail.html">

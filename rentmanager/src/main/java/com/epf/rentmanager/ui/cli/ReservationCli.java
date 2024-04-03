@@ -18,8 +18,7 @@ public class ReservationCli {
         this.reservationService = reservationService;
     }
 
-    public void CreateReservation() throws ServiceException {
-        Scanner sc = new Scanner(System.in);
+    public void CreateReservation(Scanner sc) throws ServiceException {
         Reservation reservation;
 
         try{
@@ -56,7 +55,6 @@ public class ReservationCli {
         }catch(ServiceException e){
             throw new ServiceException(e.getMessage());
         }
-        sc.close();
     }
     public static LocalDate DateDeReservation(boolean DebutOuFin, Scanner sc) {
 
@@ -105,9 +103,8 @@ public class ReservationCli {
             throw new ServiceException(e.getMessage());
         }
     }
-    public void DeleteReservation() throws ServiceException {
+    public void DeleteReservation(Scanner sc) throws ServiceException {
 
-        Scanner sc = new Scanner(System.in);
         try{
             System.out.println("Liste des réservations: \n") ;
             ReservationCli reservationCli = new ReservationCli(reservationService);
@@ -133,11 +130,10 @@ public class ReservationCli {
         }catch(ServiceException e){
             throw new ServiceException(e.getMessage());
         }
-        sc.close();
     }
 
-    public void findResaByVehicleId() throws ServiceException {
-        Scanner sc = new Scanner(System.in);
+    public void findResaByVehicleId(Scanner sc) throws ServiceException {
+
         try{
             long idVehicle = sc.nextLong();
 
@@ -157,11 +153,10 @@ public class ReservationCli {
         }catch(ServiceException e){
             throw new ServiceException(e.getMessage());
         }
-        sc.close();
     }
 
-    public void findResaByClientId() throws ServiceException {
-        Scanner sc = new Scanner(System.in);
+    public void findResaByClientId(Scanner sc) throws ServiceException {
+
         try {
             System.out.println("Entrer l'id du client dont vous souhaitez afficher la réservation:");
             long IdClient = sc.nextLong();
@@ -182,9 +177,6 @@ public class ReservationCli {
 
         } catch (ServiceException e) {
             throw new ServiceException(e.getMessage());
-        } finally {
-            sc.close();
         }
     }
-
 }

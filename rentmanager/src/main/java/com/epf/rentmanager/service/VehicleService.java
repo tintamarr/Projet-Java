@@ -6,25 +6,24 @@ import exception.DaoException;
 import exception.ServiceException;
 import com.epf.rentmanager.dao.VehicleDao;
 import model.Vehicle;
+import org.springframework.stereotype.Service;
+
 import java.util.Optional;
+@Service
 public class VehicleService {
 
 	private VehicleDao vehicleDao;
-	public static VehicleService instance;
-	
-	private VehicleService() {
-		this.vehicleDao = VehicleDao.getInstance();
+	private VehicleService(VehicleDao vehicleDao){
+		this.vehicleDao = vehicleDao;
 	}
 	
-	public static VehicleService getInstance() {
-		if (instance == null) {
-			instance = new VehicleService();
+	public long countVehicles() throws ServiceException{
+		try{
+			return vehicleDao.countVehicle();
+		}catch (DaoException e) {
+			throw new ServiceException(e.getMessage());
 		}
-		
-		return instance;
 	}
-	
-	
 	public long create(Vehicle vehicle) throws ServiceException {
 		if (vehicle.getNb_places()<=1 || vehicle.getConstructeur().isEmpty()) {
 			throw new ServiceException("Le véhicule doit avoir un nombre de places supérieures à 1 et un constructeur non vide.\n");
