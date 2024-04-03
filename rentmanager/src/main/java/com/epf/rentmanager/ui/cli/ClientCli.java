@@ -70,22 +70,22 @@ public class ClientCli {
 
         Scanner sc = new Scanner(System.in);
 
-        String str;
+        String date;
         LocalDate dateNaissance = null;
         boolean dateCorrecte = false;
 
         while (!dateCorrecte) {
             System.out.println("Entrez votre date de naissance JJ/MM/AAAA: ");
-            str = sc.nextLine();
+            date = sc.nextLine();
 
-            if (str.isEmpty()) {
+            if (date.isEmpty()) {
                 System.out.println("Vous devez entrer une date !");
                 continue;
             }
 
             try {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                dateNaissance = LocalDate.parse(str, dtf);
+                dateNaissance = LocalDate.parse(date, dtf);
                 dateCorrecte = true;
             } catch (Exception e) {
                 System.out.println("La date entrée est invalide. Assurez-vous de respecter le format [jj. MMM. AAAA].");
@@ -127,13 +127,7 @@ public class ClientCli {
            ClientCli clientCli = new ClientCli(clientService);
            clientCli.findAll();
            System.out.println("Saisissez l'id du client que vous voulez supprimer.\n");
-           String InputIdClient = sc.nextLine();
-
-           while(InputIdClient.isEmpty()){
-               System.out.println("Veuillez rentrer l'id du client à supprimer.\n");
-               InputIdClient = sc.nextLine();
-           }
-            int IdClientASupprimer  = Integer.parseInt(InputIdClient);
+           long IdClientASupprimer = sc.nextLong();
 
             Client client = clientService.findById(IdClientASupprimer);
             System.out.println(client);

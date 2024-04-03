@@ -93,8 +93,8 @@ public class ClientDao {
 				client.setNom(rs.getString("nom"));
 				client.setPrenom(rs.getString("prenom"));
 				client.setEmail(rs.getString("email"));
-				LocalDate localDate = ((Timestamp) rs.getObject("naissance")).toLocalDateTime().toLocalDate();
-				client.setNaissance(localDate);
+				LocalDate DateNaissance = ((Timestamp) rs.getObject("naissance")).toLocalDateTime().toLocalDate();
+				client.setNaissance(DateNaissance);
 			}
 
 		}catch(SQLException e){

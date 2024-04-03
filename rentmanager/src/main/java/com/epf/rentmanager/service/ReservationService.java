@@ -43,8 +43,9 @@ public class ReservationService {
     public List<Reservation> findResaByClientId(long clientId) throws ServiceException {
         try {
             Optional<List<Reservation>> reservationOptional = reservationDao.findResaByClientId(clientId);
+
             if (reservationOptional.isPresent()) {
-                return reservationOptional.get();
+               return reservationOptional.get();
             } else {
                 throw new ServiceException("Aucune réservation ne correspond à l'id client : "+clientId+".\n");
             }
@@ -54,7 +55,8 @@ public class ReservationService {
     }
     public List<Reservation> findResaByVehicleId(long vehicleId) throws ServiceException {
         try {
-            Optional<List<Reservation>> reservationOptional = reservationDao.findResaByVehicleId(vehicleId);
+            Optional<List<Reservation>>  reservationOptional = reservationDao.findResaByVehicleId(vehicleId);
+
             if (reservationOptional.isPresent()) {
                 return reservationOptional.get();
             } else {
@@ -64,18 +66,16 @@ public class ReservationService {
             throw new ServiceException("Une erreur a eu lieu lors de la récupération de la réservation par l'id du véhicule.\n");
         }
     }
-
     public List<Reservation> findAll() throws ServiceException {
         try {
             Optional<List<Reservation>> optionalReservations = reservationDao.findAll();
             if (optionalReservations.isPresent()) {
                 return optionalReservations.get();
             } else {
-                throw new ServiceException("Aucune réservation trouvé dans la liste.\n");
+                throw new ServiceException("Aucune réservation trouvée dans la liste.\n");
             }
         } catch (DaoException e) {
             throw new ServiceException("Une erreur a eu lieu lors de la récupération des réservations.\n");
         }
     }
-
 }

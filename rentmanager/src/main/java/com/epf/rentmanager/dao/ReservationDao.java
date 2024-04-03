@@ -1,6 +1,7 @@
 package com.epf.rentmanager.dao;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,9 +107,9 @@ public class ReservationDao {
 				}
 			}
 		}
-		return Optional.ofNullable(reservations);
+		return Optional.of(reservations);
 	}
-	
+
 	public Optional<List<Reservation>> findResaByVehicleId(long vehicleId) throws DaoException {
 		ResultSet rs = null;
 		List<Reservation> reservations = new ArrayList<>();
@@ -116,7 +117,7 @@ public class ReservationDao {
 		try(Connection connection = ConnectionManager.getConnection();
 			PreparedStatement ps = connection.prepareStatement(FIND_RESERVATIONS_BY_VEHICLE_QUERY)){
 
-			ps.setLong(1,vehicleId);
+			ps.setLong(1, vehicleId);
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
@@ -124,15 +125,19 @@ public class ReservationDao {
 				reservation.setId(rs.getLong("id"));
 				reservation.setClient_id(rs.getLong("client_id"));
 				reservation.setVehicle_id(rs.getLong("vehicle_id"));
-				reservation.setDebut(((java.sql.Date) rs.getObject("debut")).toLocalDate());
-				reservation.setFin(((java.sql.Date) rs.getObject("fin")).toLocalDate());
+
+				LocalDate DateDebut = rs.getObject("debut", LocalDate.class);
+				LocalDate DateFin = rs.getObject("fin", LocalDate.class);
+
+				reservation.setDebut(DateDebut);
+				reservation.setFin(DateFin);
 				reservations.add(reservation);
 			}
 
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			throw new DaoException("Une erreur s'est produite lors de la recherche des réservations liées à l'id d'un véhicule.");
-		}finally{
-			if(rs != null) {
+		} finally {
+			if (rs != null) {
 				try {
 					rs.close();
 				} catch (SQLException e) {
@@ -140,7 +145,7 @@ public class ReservationDao {
 				}
 			}
 		}
-		return Optional.ofNullable(reservations);
+		return Optional.of(reservations);
 	}
 	public Optional<List<Reservation>> findAll() throws DaoException {
 		ResultSet rs = null;
@@ -156,8 +161,10 @@ public class ReservationDao {
 				reservation.setId(rs.getLong("id"));
 				reservation.setClient_id(rs.getLong("client_id"));
 				reservation.setVehicle_id(rs.getLong("vehicle_id"));
-				reservation.setDebut(((java.sql.Date) rs.getObject("debut")).toLocalDate());
-				reservation.setFin(((java.sql.Date) rs.getObject("fin")).toLocalDate());
+				LocalDate DateDebut = ((Timestamp) rs.getObject("debut")).toLocalDateTime().toLocalDate();
+				reservation.setDebut(DateDebut);
+				LocalDate DateFin = ((Timestamp) rs.getObject("fin")).toLocalDateTime().toLocalDate();
+				reservation.setFin(DateFin);
 				reservations.add(reservation);
 			}
 		}catch(SQLException e){
@@ -171,6 +178,6 @@ public class ReservationDao {
 				}
 			}
 		}
-		return Optional.ofNullable(reservations);
+		return Optional.of(reservations);
 	}
 }

@@ -37,15 +37,8 @@ public class VehicleCli {
             }
 
             System.out.println("Entrez le nombre de places du véhicule :");
-            String input_nb_places = sc.nextLine();
+            int nb_places = sc.nextInt();
 
-            while(input_nb_places.isEmpty()){
-                System.out.println("Le nombre de places du véhicule ne peut être vide.\n");
-                System.out.println("Entrez le nombre de places du véhicule :");
-                input_nb_places = sc.nextLine();
-            }
-
-            int nb_places  = Integer.parseInt(input_nb_places);
             vehicle = new Vehicle();
             vehicle.setConstructeur(constructeur);
             vehicle.setModele(modele);
@@ -86,15 +79,9 @@ public class VehicleCli {
             VehicleCli vehicleCli = new VehicleCli(vehicleService);
             vehicleCli.findAll();
             System.out.println("Saisissez l'id du véhicule que vous voulez supprimer.\n");
-            String InputIdVehicule = sc.nextLine();
+            int idVehicle = sc.nextInt();
 
-            while(InputIdVehicule.isEmpty()){
-                System.out.println("Veuillez rentrer l'id du véhicule à supprimer.\n");
-                InputIdVehicule = sc.nextLine();
-            }
-            int IdVehiculeASupprimer  = Integer.parseInt(InputIdVehicule);
-
-            Vehicle vehicle = vehicleService.findById(IdVehiculeASupprimer);
+            Vehicle vehicle = vehicleService.findById(idVehicle);
             System.out.println(vehicle);
             long idVehicule = vehicleService.delete(vehicle);
             System.out.println("Le véhicule avec l'id: "+idVehicule+" a bien été supprimé");
