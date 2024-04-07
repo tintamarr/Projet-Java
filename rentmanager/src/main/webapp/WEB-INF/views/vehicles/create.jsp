@@ -31,6 +31,12 @@
                         <!-- /vehicles/create -->
                         <form class="form-horizontal" method="post">
                             <div class="box-body">
+
+                                <c:if test="${not empty erreur}">
+                                    <div class="alert alert-danger">
+                                        <strong>Erreur!</strong> ${erreur}
+                                    </div>
+                                </c:if>
                                 <div class="form-group">
                                     <label for="manufacturer" class="col-sm-2 control-label">Marque</label>
 

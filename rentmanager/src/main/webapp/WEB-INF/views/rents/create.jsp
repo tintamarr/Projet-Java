@@ -1,3 +1,4 @@
+<%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html>
@@ -27,6 +28,11 @@
                         <!-- form start -->
                         <form class="form-horizontal" method="post" action="">
                             <div class="box-body">
+                                <c:if test="${not empty erreur}">
+                                    <div class="alert alert-danger">
+                                        <strong>Erreur!</strong> ${erreur}
+                                    </div>
+                                </c:if>
                                 <div class="form-group">
                                     <label for="car" class="col-sm-2 control-label">Voiture</label>
 

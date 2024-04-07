@@ -35,6 +35,13 @@ public class VehicleCreateServlet extends HttpServlet {
         String modele = request.getParameter("modele");
         int nb_places = Integer.parseInt(request.getParameter("seats"));
 
+        if (nb_places < 2 || nb_places >9) {
+            String erreur = "Le nombre de places de la voiture doit être compris entre 2 et 9.\n";
+            request.setAttribute("erreur", erreur);
+            request.getRequestDispatcher("/WEB-INF/views/vehicles/create.jsp").forward(request, response);
+            return;
+        }
+
         vehicle.setConstructeur(constructeur);
         vehicle.setModele(modele);
         vehicle.setNb_places(nb_places);
@@ -42,8 +49,11 @@ public class VehicleCreateServlet extends HttpServlet {
         try{
             vehicleService.create(vehicle);
             response.sendRedirect("/rentmanager/cars");
+
         } catch (ServiceException e) {
-            throw new RuntimeException(e.getMessage());
+            String erreur = e.getMessage();
+            request.setAttribute("erreur", erreur);
+            request.getRequestDispatcher("/WEB-INF/views/users/create.jsp").forward(request, response);
         }
     }
 }

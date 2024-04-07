@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
+
+import exception.DaoException;
 import exception.ServiceException;
 import model.Client;
 import model.Reservation;
@@ -54,6 +56,8 @@ public class ReservationCli {
 
         }catch(ServiceException e){
             throw new ServiceException(e.getMessage());
+        } catch (DaoException e) {
+            throw new RuntimeException(e);
         }
     }
     public static LocalDate DateDeReservation(boolean DebutOuFin, Scanner sc) {

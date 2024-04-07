@@ -1,5 +1,7 @@
 package com.epf.rentmanager.ui.cli;
 import com.epf.rentmanager.service.ClientService;
+import exception.AgeValidationException;
+import exception.DaoException;
 import exception.ServiceException;
 import model.Client;
 import model.Vehicle;
@@ -61,6 +63,10 @@ public class ClientCli {
 
         }catch (ServiceException e) {
             throw new ServiceException("Une erreur a eu lieu lors de la création du client.\n");
+        } catch (AgeValidationException e) {
+            throw new RuntimeException(e);
+        } catch (DaoException e) {
+            throw new RuntimeException(e);
         }
 
     }

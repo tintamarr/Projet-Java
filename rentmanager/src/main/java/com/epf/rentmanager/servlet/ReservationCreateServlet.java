@@ -1,6 +1,7 @@
 package com.epf.rentmanager.servlet;
 
 import com.epf.rentmanager.service.ReservationService;
+import exception.DaoException;
 import exception.ServiceException;
 import model.Client;
 import model.Reservation;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 @WebServlet("/rents/create")
@@ -42,6 +44,27 @@ public class ReservationCreateServlet extends HttpServlet {
 
         dateStr = request.getParameter("end");
         LocalDate fin = LocalDate.parse(dateStr, formatter);
+        try {
+            if (reservationService.dejaReserver(vehicle_id, debut, fin)) {
+                String erreur = "La voiture est déjà réservée pour cette période.";
+                request.setAttribute("erreur", erreur);
+                request.getRequestDispatcher("/WEB-INF/views/rents/create.jsp").forward(request, response);
+                return;
+            }
+        } catch (DaoException e) {
+            throw new ServletException("Erreur lors de la vérification des réservations existantes", e);
+        }
+        try {
+            if (reservationService.reservation30Jours(vehicle_id, debut, fin)) {
+                String erreur = "Une voiture ne peux pas être réservée 30 jours de suite sans pause.\n";
+                request.setAttribute("erreur", erreur);
+                request.getRequestDispatcher("/WEB-INF/views/rents/create.jsp").forward(request, response);
+                return;
+            }
+        } catch (DaoException e) {
+            throw new ServletException("Erreur lors de la vérification des réservations existantes", e);
+        }
+
 
         reservation.setVehicle_id(vehicle_id);
         reservation.setClient_id(client_id);
@@ -52,7 +75,11 @@ public class ReservationCreateServlet extends HttpServlet {
             reservationService.create(reservation);
             response.sendRedirect("/rentmanager/rents");
         } catch (ServiceException e) {
-            throw new RuntimeException(e.getMessage());
+            String erreur = e.getMessage();
+            request.setAttribute("erreur", erreur);
+            request.getRequestDispatcher("/WEB-INF/views/rents/create.jsp").forward(request, response);
+        } catch (DaoException e) {
+            throw new RuntimeException(e);
         }
     }
 }

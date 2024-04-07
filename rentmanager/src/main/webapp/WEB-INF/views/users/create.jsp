@@ -27,6 +27,16 @@
                         <!-- form start -->
                         <form class="form-horizontal" method="post" action="">
                             <div class="box-body">
+                                <c:if test="${not empty erreurAge}">
+                                    <div class="alert alert-danger">
+                                        <strong>Erreur!</strong> ${erreurAge}
+                                    </div>
+                                </c:if>
+                                <c:if test="${not empty erreur}">
+                                    <div class="alert alert-danger">
+                                        <strong>Erreur!</strong> ${erreur}
+                                    </div>
+                                </c:if>
                                 <div class="form-group">
                                     <label for="last_name" class="col-sm-2 control-label">Nom</label>
 
