@@ -15,7 +15,13 @@ public class ReservationService {
     private ReservationService(ReservationDao reservationDao){
         this.reservationDao = reservationDao;
     }
-
+    public long countRents() throws ServiceException{
+        try{
+            return reservationDao.countRents();
+        }catch (DaoException e) {
+            throw new ServiceException(e.getMessage());
+        }
+    }
     public long create(Reservation reservation) throws ServiceException {
         try {
             return reservationDao.create(reservation);

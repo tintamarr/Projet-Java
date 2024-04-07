@@ -45,15 +45,25 @@
                                     <td>${users.naissance}</td>
 
                                     <td>
-                                        <a class="btn btn-primary disabled" href="users-detail.html">
-                                            <i class="fa fa-play"></i>
-                                        </a>
-                                        <a class="btn btn-success disabled" href="#">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a class="btn btn-danger disabled" href="#">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <a class="btn btn-primary disabled" href="users-detail.html">
+                                                    <i class="fa fa-play"></i>
+                                                </a>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <a class="btn btn-success disabled" href="#">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <form action="users/delete" method="post">
+                                                    <button type="submit" class="btn btn-danger" name="userId" value="${users.id}">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 </c:forEach>

@@ -43,16 +43,26 @@
                                     <td>${vehicle.modele}</td>
                                     <td>${vehicle.nb_places}</td>
                                     <!--<td>John Doe</td>-->
-                                    <td>
-                                        <a class="btn btn-primary disabled" href="car-detail.html">
-                                            <i class="fa fa-play"></i>
-                                        </a>
-                                        <a class="btn btn-success disabled" href="#">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a class="btn btn-danger disabled" href="#">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
+                                     <td>
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <a class="btn btn-primary disabled" href="users-detail.html">
+                                                    <i class="fa fa-play"></i>
+                                                </a>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <a class="btn btn-success disabled" href="#">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <form action="cars/delete" method="post">
+                                                    <button type="submit" class="btn btn-danger" name="carId" value="${vehicle.id}">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 </c:forEach>

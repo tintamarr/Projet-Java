@@ -18,7 +18,13 @@ public class ClientService {
 	private ClientService(ClientDao clientDao){
 		this.clientDao = clientDao;
 	}
-
+	public long countClients() throws ServiceException{
+		try{
+			return clientDao.countClients();
+		}catch (DaoException e) {
+			throw new ServiceException(e.getMessage());
+		}
+	}
 	
 	public long create(Client client) throws ServiceException {
 		if (client.getNom().isEmpty() || client.getPrenom().isEmpty() ) {

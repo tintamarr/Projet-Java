@@ -21,7 +21,21 @@ public class ReservationDao {
 	private static final String FIND_RESERVATIONS_BY_CLIENT_QUERY = "SELECT id, vehicle_id, debut, fin FROM Reservation WHERE client_id=?;";
 	private static final String FIND_RESERVATIONS_BY_VEHICLE_QUERY = "SELECT id, client_id, debut, fin FROM Reservation WHERE vehicle_id=?;";
 	private static final String FIND_RESERVATIONS_QUERY = "SELECT id, client_id, vehicle_id, debut, fin FROM Reservation;";
-		
+	private static final String COUNT_RENTS= "SELECT COUNT(id) AS count FROM Reservation" ;
+
+	public long countRents() throws DaoException {
+		long nb_reservations = 0;
+		try (Connection connection = ConnectionManager.getConnection();
+			 PreparedStatement ps = connection.prepareStatement(COUNT_RENTS);
+			 ResultSet rs = ps.executeQuery()) {
+			if (rs.next()) {
+				nb_reservations = rs.getLong(1);
+			}
+		} catch (SQLException e) {
+			throw new DaoException("Une erreur s'est produite lors du dénombrement des véhicules");
+		}
+		return nb_reservations;
+	}
 	public long create(Reservation reservation) throws DaoException {
 
 		ResultSet rs =null;

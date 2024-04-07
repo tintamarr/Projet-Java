@@ -17,7 +17,21 @@ public class ClientDao {
 	private static final String DELETE_CLIENT_QUERY = "DELETE FROM Client WHERE id=?;";
 	private static final String FIND_CLIENT_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client WHERE id=?;";
 	private static final String FIND_CLIENTS_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client;";
-	
+	private static final String COUNT_CLIENTS= "SELECT COUNT(id) AS count FROM Client" ;
+
+	public long countClients() throws DaoException {
+		long nb_clients = 0;
+		try (Connection connection = ConnectionManager.getConnection();
+			 PreparedStatement ps = connection.prepareStatement(COUNT_CLIENTS);
+			 ResultSet rs = ps.executeQuery()) {
+			if (rs.next()) {
+				nb_clients = rs.getLong(1);
+			}
+		} catch (SQLException e) {
+			throw new DaoException("Une erreur s'est produite lors du dénombrement des clients");
+		}
+		return nb_clients;
+	}
 	public long create(Client client) throws DaoException {
 
 		try(Connection connection = ConnectionManager.getConnection();

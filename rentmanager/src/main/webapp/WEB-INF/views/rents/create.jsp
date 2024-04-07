@@ -25,26 +25,22 @@
                     <!-- Horizontal Form -->
                     <div class="box">
                         <!-- form start -->
-                        <form class="form-horizontal" method="post" action="/rents/create">
+                        <form class="form-horizontal" method="post" action="">
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="car" class="col-sm-2 control-label">Voiture</label>
 
                                     <div class="col-sm-10">
-                                        <select class="form-control" id="car" name="car">
-                                            <option value="1">Renault Clio</option>
-                                            <option value="2">Citroen C2</option>
-                                        </select>
+                                        <input type="text" class="form-control" id="car" name="car" placeholder="ID Véhicule">
+
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="client" class="col-sm-2 control-label">Client</label>
 
                                     <div class="col-sm-10">
-                                        <select class="form-control" id="client" name="client">
-                                            <option value="1">John Doe</option>
-                                            <option value="2">Jane Doe</option>
-                                        </select>
+                                        <input type="text" class="form-control" id="client" name="client" placeholder="ID Client">
+
                                     </div>
                                 </div>
                                 <div class="form-group">

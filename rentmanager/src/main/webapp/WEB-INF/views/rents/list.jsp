@@ -28,49 +28,43 @@
                             <table class="table table-striped">
                                 <tr>
                                     <th style="width: 10px">#</th>
-                                    <th>Voiture</th>
-                                    <th>Client</th>
+                                    <th>ID Voiture</th>
+                                    <th>ID Client</th>
                                     <th>Debut</th>
                                     <th>Fin</th>
                                     <th>Action</th>
                                 </tr>
                                 <tr>
-                                    <td>1.</td>
-                                    <td>Renault Clio</td>
-                                    <td>John Doe</td>
-                                    <td>10/01/2019</td>
-                                    <td>13/01/2019</td>
-                                    <td>
-                                        <a class="btn btn-primary disabled" href="${pageContext.request.contextPath}/cars?id=1">
-                                            <i class="fa fa-play"></i>
-                                        </a>
-                                        <a class="btn btn-success disabled" href="#">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a class="btn btn-danger disabled" href="#">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                <c:forEach items="${rents}" var="rents">
+                                    <td>${rents.id}.</td>
+                                    <td>${rents.vehicle_id}</td>
+                                    <td>${rents.client_id}</td>
+                                    <td>${rents.debut}</td>
+                                    <td>${rents.fin}</td>
 
-                                <tr>
-                                    <td>2.</td>
-                                    <td>Citroen C2</td>
-                                    <td>Jane Doe</td>
-                                    <td>10/01/2019</td>
-                                    <td>13/01/2019</td>
                                     <td>
-                                        <a class="btn btn-primary disabled" href="${pageContext.request.contextPath}/cars?id=2">
-                                            <i class="fa fa-play"></i>
-                                        </a>
-                                        <a class="btn btn-success disabled" href="#">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a class="btn btn-danger disabled" href="#">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <a class="btn btn-primary disabled" href="users-detail.html">
+                                                    <i class="fa fa-play"></i>
+                                                </a>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <a class="btn btn-success disabled" href="#">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <form action="rents/delete" method="post">
+                                                    <button type="submit" class="btn btn-danger" name="rentId" value="${rents.id}">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
+                                </c:forEach>
                             </table>
                         </div>
                         <!-- /.box-body -->

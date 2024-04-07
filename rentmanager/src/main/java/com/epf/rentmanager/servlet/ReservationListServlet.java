@@ -1,9 +1,10 @@
 package com.epf.rentmanager.servlet;
 
 import com.epf.rentmanager.service.ClientService;
+import com.epf.rentmanager.service.ReservationService;
 import exception.ServiceException;
 import model.Client;
-import model.Vehicle;
+import model.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -15,10 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/users")
-public class ClientListServlet extends HttpServlet{
+@WebServlet("/rents")
+public class ReservationListServlet extends HttpServlet{
     @Autowired
-    private ClientService clientService;
+    private ReservationService reservationService;
     @Override
     public void init() throws ServletException {
         super.init();
@@ -26,18 +27,16 @@ public class ClientListServlet extends HttpServlet{
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        List<Client> listeClients = null;
+        List<Reservation> listeReservation = null;
         try{
-            listeClients = clientService.findAll();
+            listeReservation = reservationService.findAll();
 
         } catch (ServiceException e) {
             throw new RuntimeException(e.getMessage());
         }
-        request.setAttribute("users", listeClients);
-        this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/list.jsp").forward(request, response);
+        request.setAttribute("rents", listeReservation);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/views/rents/list.jsp").forward(request, response);
     }
-
-
 
 }
 
